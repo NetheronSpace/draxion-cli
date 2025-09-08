@@ -5,9 +5,9 @@
 
 ---
 
-> **⚠️ Project Status: Experimental Prototype**
+> **⚠️ Project Status: In Development - Not Yet Functional**
 > 
-> This client is a functional proof of concept. Although the cryptographic foundations and architecture are solid, there are many areas that need to be polished and improved before it can be considered a production release. This is not an official product.
+> This project is under active development. The `draxion-cli` client is **not yet functional** for general use and is awaiting an official launch. The current code is intended for development and testing purposes only.
 
 ---
 
