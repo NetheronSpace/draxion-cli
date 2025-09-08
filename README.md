@@ -5,63 +5,63 @@
 
 ---
 
-> **⚠️ Estado del Proyecto: Prototipo Experimental**
+> **⚠️ Project Status: Experimental Prototype**
 > 
-> Este cliente es una prueba de concepto funcional. Aunque las bases criptográficas y la arquitectura son sólidas, hay muchas áreas que necesitan ser pulidas y mejoradas antes de considerarse una versión de producción. No es un producto oficial.
+> This client is a functional proof of concept. Although the cryptographic foundations and architecture are solid, there are many areas that need to be polished and improved before it can be considered a production release. This is not an official product.
 
 ---
 
-## 📜 Descripción
+## 📜 Description
 
-Este repositorio contiene el código fuente para el cliente de línea de comandos (CLI) de **Draxion**, un servicio de almacenamiento seguro de archivos en la nube. El cliente está diseñado bajo una filosofía de **confianza cero** (*zero-trust*) y **criptografía de extremo a extremo** (*E2EE*), donde el cliente es el único responsable de la gestión de claves y el cifrado de datos.
+This repository contains the source code for the command-line interface (CLI) client for **Draxion**, a secure cloud file storage service. The client is designed under a **zero-trust** and **end-to-end encryption (E2EE)** philosophy, where the client is solely responsible for key management and data encryption.
 
-### Aclaración sobre el Idioma
+### Language Clarification
 
-> Una parte significativa del código fue escrita originalmente en español. Se está trabajando para estandarizar todo a inglés, pero aún pueden quedar restos del idioma original. Esto se corregirá en futuras actualizaciones.
+> A significant part of the code was originally written in Spanish. Efforts are underway to standardize everything to English, but remnants of the original language may still exist. This will be corrected in future updates.
 
-## ✨ Características Principales
+## ✨ Key Features
 
-*   **Autenticación Zero-Knowledge:** Demuestra la posesión de la contraseña maestra sin revelarla al servidor, usando un protocolo ZKP.
-*   **Cifrado End-to-End:** Los archivos se cifran y descifran localmente. El servidor solo almacena blobs de datos ilegibles.
-*   **Gestión de Archivos Concurrente:** Sube y descarga archivos en paralelo para mayor eficiencia.
-*   **Recuperación de Desastres:** Implementa el Esquema Secreto de Shamir (SSS) para dividir la clave maestra en fragmentos recuperables.
-*   **Compartición Segura:** Comparte archivos con otros usuarios reenviando la clave del archivo, cifrada con la clave pública del destinatario.
+*   **Zero-Knowledge Authentication:** Proves possession of the master password without revealing it to the server, using a ZKP protocol.
+*   **End-to-End Encryption:** Files are encrypted and decrypted locally. The server only stores unreadable data blobs.
+*   **Concurrent File Management:** Upload and download files in parallel for greater efficiency.
+*   **Disaster Recovery:** Implements Shamir's Secret Sharing (SSS) to split the master key into recoverable fragments.
+*   **Secure Sharing:** Share files with other users by forwarding the file key, encrypted with the recipient's public key.
 
-## ⚙️ Instalación y Configuración
+## ⚙️ Installation and Setup
 
-1.  **Clonar el Repositorio:**
+1.  **Clone the Repository:**
     ```sh
     git clone https://github.com/NetheronSpace/draxion-cli.git
     cd draxion-cli
     ```
 
-2.  **Crear Entorno Virtual:**
+2.  **Create a Virtual Environment:**
     ```sh
     python3 -m venv venv
     source venv/bin/activate
     ```
 
-3.  **Instalar Dependencias:**
+3.  **Install Dependencies:**
     ```sh
     pip install -r requirements.txt
     ```
 
-4.  **Configurar la API:**
-    Abre el archivo `src/config.py` y establece el valor de la variable `SERVER_URL` para que apunte a la dirección de tu servidor Draxion.
+4.  **Configure the API:**
+    Open the `src/config.py` file and set the value of the `SERVER_URL` variable to point to your Draxion server's address.
 
-## 🚀 Uso Básico
+## 🚀 Basic Usage
 
-*   **Ver todos los comandos disponibles:**
+*   **View all available commands:**
     ```sh
     python3 cliente.py --help
     ```
 
-*   **Registrar una nueva cuenta:**
+*   **Register a new account:**
     ```sh
     python3 cliente.py register
     ```
 
-*   **Iniciar sesión en tu cuenta:**
+*   **Log into your account:**
     ```sh
     python3 cliente.py login
     ```
