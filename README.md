@@ -74,3 +74,8 @@ Draxion is brought to you by the founder of the Netheron collective:
     ```sh
     python3 cliente.py login
     ```
+
+## 📞 Contact
+
+*   **Email:** [contact@netheron.space](mailto:contact@netheron.space)
+*   **X (Twitter):** [@NetheronSpace](https://x.com/NetheronSpace)
