@@ -756,21 +756,16 @@ def set_language(lang):
             config['language'] = lang
             save_client_config(config)
         except Exception:
-            # Si falla el guardado, la aplicación no debe romperse.
-            # El idioma se cambiará para la sesión actual de todas formas.
             pass
         return True
     return False
 
 def t(key, **kwargs):
-    # This is a simplified t function for the example. 
-    # A real implementation might handle nested keys, pluralization, etc.
     if '|' in key:
         try:
             base_key, extra = key.split('|', 1)
             base_text = translations[current_language].get(base_key, base_key)
             return f"{base_text} ({extra})"
         except (ValueError, IndexError):
-            # Fallback if the split fails unexpectedly
             pass
     return translations[current_language].get(key, key).format(**kwargs)
