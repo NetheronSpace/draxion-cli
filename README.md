@@ -29,12 +29,6 @@ This repository contains the source code for the command-line interface (CLI) cl
 *   **Disaster Recovery:** Implements Shamir's Secret Sharing (SSS) to split the master key into recoverable fragments.
 *   **Secure Sharing:** Share files with other users by forwarding the file key, encrypted with the recipient's public key.
 
-## 👥 Team
-
-Draxion is brought to you by the founder of the Netheron collective:
-
-*   **[Luis Soza](https://github.com/nsluisr)** – Lead Developer
-
 ## ⚙️ Installation and Setup
 
 
