@@ -1,0 +1,7 @@
+click
+requests
+cryptography
+noknow-python
+prompt_toolkit
+textual
+shamirs

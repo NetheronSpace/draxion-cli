@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
+.env
+venv/
+env/
+.venv/
+
+# Project-specific ignores
+profiles/
+
+# Configuration and state files
+client_config.json
+*state.json
+*state_*.json
+
+# Temp files
+temp/
+*.pem

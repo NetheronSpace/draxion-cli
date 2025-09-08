@@ -1,0 +1,99 @@
+#!/bin/bash
+
+[ "$(id -u)" != "0" ] && { echo "Error: Ejecutar como root" >&2; exit 1; }
+
+# Obtener usuario de los argumentos o preguntar interactivamente
+if [ $# -eq 1 ]; then
+    USERNAME="$1"
+else
+    read -p "Nombre de usuario para chroot (o 'root'): " USERNAME
+fi
+
+GENTOO_PART="/dev/sda5"
+MOUNT_DIR="/mnt/gentoo"
+
+safe_umount() {
+    local target="$1"
+    echo "Desmontando $target..."
+    
+    # Intentar desmontaje normal
+    umount -R "$target" 2>/dev/null
+    
+    # Si sigue montado, intentar lazy unmount
+    if mountpoint -q "$target"; then
+        echo "  [INFO] Procesos que lo usan:"
+        fuser -vm "$target" 2>/dev/null || true
+        echo "  Forzando desmontaje lazy..."
+        umount -l "$target" 2>/dev/null
+    fi
+    
+    # Verificar resultado final
+    if mountpoint -q "$target"; then
+        echo "  [AVISO] No se pudo desmontar $target completamente"
+        return 1
+    fi
+    return 0
+}
+
+# Verificar si la partición ya está montada
+if mountpoint -q "$MOUNT_DIR"; then
+    echo "La partición ya está montada en $MOUNT_DIR. Continuando..."
+else
+    echo "Montando $GENTOO_PART en $MOUNT_DIR..."
+    mount "$GENTOO_PART" "$MOUNT_DIR" || exit 1
+fi
+
+echo "Montando sistemas virtuales..."
+mount -t proc proc "$MOUNT_DIR/proc" 2>/dev/null
+mount --rbind /sys "$MOUNT_DIR/sys" && mount --make-rslave "$MOUNT_DIR/sys"
+mount --rbind /dev "$MOUNT_DIR/dev" && mount --make-rslave "$MOUNT_DIR/dev"
+mount --bind /run "$MOUNT_DIR/run" 2>/dev/null
+
+# Montar puntos adicionales críticos
+mount -t devpts devpts "$MOUNT_DIR/dev/pts" -o gid=5,mode=620 2>/dev/null
+mount -t tmpfs shm "$MOUNT_DIR/dev/shm" -o mode=1777 2>/dev/null
+
+echo "Configurando DNS..."
+cp -f /etc/resolv.conf "$MOUNT_DIR/etc/resolv.conf" 2>/dev/null
+
+# Preparar comando para entrar en chroot según el usuario
+if [ "$USERNAME" = "root" ]; then
+    CHROOT_CMD="export PS1='(chroot) \w# '; exec /bin/bash"
+else
+    # Verificar si el usuario existe en el entorno chroot
+    if ! chroot "$MOUNT_DIR" /bin/bash -c "id -u '$USERNAME'" &>/dev/null; then
+        echo "  [ERROR] El usuario '$USERNAME' no existe en el entorno chroot"
+        echo "  Usando root en su lugar"
+        USERNAME="root"
+        CHROOT_CMD="export PS1='(chroot) \w# '; exec /bin/bash"
+    else
+        CHROOT_CMD="export PS1='(chroot) \w\$ '; exec sudo -u '$USERNAME' /bin/bash -l"
+    fi
+fi
+
+echo "Entrando en chroot como $USERNAME..."
+chroot "$MOUNT_DIR" /bin/bash -c "$CHROOT_CMD"
+
+echo "Desmontando sistemas..."
+safe_umount "$MOUNT_DIR/run"
+safe_umount "$MOUNT_DIR/dev/shm" 2>/dev/null
+safe_umount "$MOUNT_DIR/dev/pts" 2>/dev/null
+safe_umount "$MOUNT_DIR/dev"
+safe_umount "$MOUNT_DIR/sys"
+safe_umount "$MOUNT_DIR/proc"
+
+echo "Desmontando raíz principal..."
+umount -R "$MOUNT_DIR" 2>/dev/null
+if mountpoint -q "$MOUNT_DIR"; then
+    echo "  [AVISO] Intentando desmontaje lazy de la raíz..."
+    umount -lR "$MOUNT_DIR" 2>/dev/null
+fi
+
+if mountpoint -q "$MOUNT_DIR"; then
+    echo "  [ERROR] No se pudo desmontar $MOUNT_DIR"
+    echo "  Ejecuta manualmente: umount -lR $MOUNT_DIR"
+else
+    echo "  Raíz desmontada correctamente"
+fi
+
+echo "Operación completada"
