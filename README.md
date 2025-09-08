@@ -5,9 +5,11 @@
 
 ---
 
-> **⚠️ Project Status: In Development - Not Yet Functional**
+> **⚠️ Project Status: In Development - Awaiting Server Launch**
 > 
-> This project is under active development. The `draxion-cli` client is **not yet functional** for general use and is awaiting an official launch. The current code is intended for development and testing purposes only.
+> The `draxion-cli` client is currently functional, but still under active development with more features and improvements to come. The code is 100% real, not a simulation.
+> 
+> The main reason the client is **not usable for the public** is that it requires connection to the Draxion server backend, which is not yet deployed. The project is intended for development, code review, and testing until the official service launch.
 
 ---
 
