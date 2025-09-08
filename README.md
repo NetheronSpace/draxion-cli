@@ -33,7 +33,7 @@ This repository contains the source code for the command-line interface (CLI) cl
 
 Draxion is brought to you by the founder of the Netheron collective:
 
-*   **[Luis Soza](https://github.com/nsluisr)** – Lead Developer & Founder
+*   **[Luis Soza](https://github.com/nsluisr)** – Lead Developer
 
 ## ⚙️ Installation and Setup
 
