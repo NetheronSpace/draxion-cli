@@ -50,5 +50,4 @@ def save_client_config(config):
     with open(CONFIG_FILE, 'w') as f:
         json.dump(config, f, indent=4)
 
-# Asegurarse de que los directorios existan al importar el módulo
 ensure_dirs()
